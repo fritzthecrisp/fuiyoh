@@ -1,0 +1,19 @@
+
+Hello moderators, judges, admin,and inventors I am Darren Ong
+{... and I am Zeph Teo}
+{ And together, we are the inventors of ... Little Green Eats}
+Little Green Eats is an application designed to combat food wastage in Singapore through pre-ordering in a fun manner. Our solution aims to tackle the UNSDG 13 and 15 problems!
+
+We would love to walk you through a short preview of our invention as our pitch didn't include it due to unforeseen circumstances. Judges, would you like to have a look?
+
+I'll begin with the process of ordering egg tarts from a customer's point of view. 
+L
+
+On this page, we can see we have the in store price at 9.90. and the discounted prices of ordering in advance below.
+
+on the chckoout page u can select your collection date and time, the discounts, and green points earned from the pruchase.
+
+in the rest vers of our app, there is a notif, and sure enough o the 15th of oct
+
+Little green eats differentiates itself from other food waste solutions by having a fun aspect. Here, there is a points and rewards system, where a user can complete green challenges to earn points for rewards. Not only are we combatting food waste, but we're doing it in a fun way.
+

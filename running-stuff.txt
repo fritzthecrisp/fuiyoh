@@ -1,0 +1,141 @@
+-- ROUTER ADDRESS CONFIG + R ON A STICK
+
+en
+conf t
+int g0/1
+desc HQ-Edge-to-Internal-Router
+ip add 172.26.20.6 255.255.255.252
+no shut
+
+int s0/1/0
+desc HQ-BRANCH-WAN
+ip add 172.26.20.2 255.255.255.252
+no shut
+
+en
+conf t
+int g0/1
+desc Internal-Router-to-Edge-WAN
+ip add 172.26.20.5 255.255.255.252
+no shut
+
+int g0/0.100
+desc VLAN 100
+encapsulat dot 100
+ip add 172.26.0.1 255.255.248.0
+ip helper-address 172.26.20.6
+
+
+int g0/0.200
+desc VLAN 200
+encapsulat dot 200
+ip add 172.26.8.1 255.255.248.0
+ip helper-address 172.26.20.6
+
+int g0/0 
+no shut
+
+
+en
+conf t
+int g0/1
+desc BRANCH LAN
+ip add 172.26.16.1 255.255.252.0
+no shut
+
+int s0/0/0
+desc BRANCH-HQ-WAN
+ip add 172.26.20.1 255.255.255.252
+no shut
+
+
+
+%%%%%%At this point all interface connections should turn green%%%%
+Router on a stick configured, p2p network connections configured
+
+
+-- DHCP CONFIGURED (Edge)
+en 
+conf t
+ip dhcp excluded-address 172.26.0.1 172.26.0.10
+ip dhcp excluded-address 172.26.8.1 172.26.8.10
+ip dhcp pool VLAN100_POOL
+network 172.26.0.0 255.255.248.0
+default-router 172.26.0.1
+dns-server 165.10.10.2
+#domain-name <name>
+
+ip dhcp pool VLAN200_POOL
+network 172.26.8.0 255.255.248.0
+default-router 172.26.8.1
+dns-server 165.10.10.2
+#domain-name <name>
+
+-----------------------------------------------
+RIP ROUTING PROTOCOL
+
+en 
+conf t
+router rip
+version 2
+no auto-summary
+network 172.26.0.0
+network 172.26.8.0
+network 172.26.20.4
+
+en 
+conf t
+router rip
+version 2
+no auto-summary
+network 172.26.16.0
+network 172.26.20.4
+
+
+en 
+conf t
+router rip
+version 2
+no auto-summary
+network 172.26.20.0
+network 172.26.20.4
+passive-interface s0/0/0
+
+~~~~~~~~~~~~~~~~~~~~~
+DEFAULT ROUTING PRTCL
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+router rip
+default-information originate
+
+
+en
+conf t
+int r f0/1-8
+switchport mode ac
+switchport mode access
+switchport access vlan 10
+int r f0/9-16
+switchport mode access
+switchport access vlan 20
+int r f0/17-24
+switchport mode access
+switchport access vlan 30
+int r g0/1-2
+switchport mode trunk
+
+RUN FOR BOTH SWITCHES
+
+NAT
+access-list 1 permit any 
+ip nat pool publicPool 100.100.100.0 100.100.100.15 netmask 255.255.255.240
+ip nat inside source list 1 pool publicPool
+int g0/1
+ip nat inside
+int s0/1/0
+ip nat in
+int s0/0/0 
+ip nat outside
+
+ip route from outside to in: ip route 65.10.10.0 255.255.255.248 s0/0/0
+
+

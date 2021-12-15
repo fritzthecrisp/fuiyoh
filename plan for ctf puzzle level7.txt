@@ -1,0 +1,10 @@
+GO -> 1 page that has audio file and is also a login page
+ -- users will login with a hex string whose md5 hash digit is exactly the same as the password (md5 collision) <!-- DONE -->
+
+
+--> normal user use sql injection to change admin password under update profile page (burpsuite)
+
+--> html page with fake url (simple)
+ -- hide working url in html code
+
+--> html page with math paper very hard, input box, "Let's test your math skills!" hidden flag behind in image format.
